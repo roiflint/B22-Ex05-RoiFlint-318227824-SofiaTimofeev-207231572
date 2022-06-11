@@ -75,13 +75,17 @@ namespace CheckersUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(440, 389);
             this.Controls.Add(this.labelPlayer2Score);
             this.Controls.Add(this.labelPlayer2Name);
             this.Controls.Add(this.labelPlayer1Score);
             this.Controls.Add(this.labelPlayer1Name);
             this.Name = "FormCheckers";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Damka";
+            this.Resize += new System.EventHandler(this.FormCheckers_Resize);
             this.ResumeLayout(false);
             this.PerformLayout();
 

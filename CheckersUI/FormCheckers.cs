@@ -13,12 +13,31 @@ namespace CheckersUI
     public partial class FormCheckers : Form
     {
         private readonly FormGameSettings r_GameSettings = new FormGameSettings();
+        private const int k_HeightPadding = 50;
+        private const int k_WeightPadding = 30;
         private Player m_PlayerOne;
         private Player m_PlayerTwo;
         private bool m_IsGameOver = false;
         private GameLogic m_gameLogic;
         private AI m_gameAi;
 
+        internal class GameButton : Button
+        {
+
+            public static int GameButtonSize => 60;
+            private const int k_HeightPadding = 30;
+            private const int k_WeightPadding = 10;
+            private const int k_LeftPadding = 5;
+            public GameButton(int i_Row, int i_Col)
+            {
+                int currentHeight = k_HeightPadding + GameButtonSize * i_Row + k_LeftPadding;
+                int currentWidth = k_WeightPadding + GameButtonSize * i_Col + k_LeftPadding;
+                Location = new Point(currentWidth, currentHeight);
+                Name = string.Format("{0}{1}", i_Row + "A", i_Col + "a");
+                Size = new Size(GameButtonSize, GameButtonSize);
+                Enabled = false;
+            }
+        }
         public FormCheckers()
         {
             r_GameSettings.ShowDialog();
@@ -27,21 +46,22 @@ namespace CheckersUI
             createPlayerTwo();
             createGameLogic();
             createBoard();
-            ClientSize = new Size(30 + 80 * r_GameSettings.BoardSize,
-                50 + 80 * r_GameSettings.BoardSize);
-            this.StartPosition = FormStartPosition.CenterScreen;
+            ClientSize = new Size(k_WeightPadding + GameButton.GameButtonSize * r_GameSettings.BoardSize,
+                k_HeightPadding + GameButton.GameButtonSize * r_GameSettings.BoardSize);
         }
 
         private void createPlayerOne()
         {
             m_PlayerOne = new Player(r_GameSettings.Player1Name, true);
             labelPlayer1Name.Text = r_GameSettings.Player1Name + ": ";
+            labelPlayer1Score.Left = labelPlayer1Name.Right + 10;
         }
 
         private void createPlayerTwo()
         {
             m_PlayerTwo = new Player(r_GameSettings.Player2Name, r_GameSettings.IsComputer);
             labelPlayer2Name.Text = r_GameSettings.Player2Name + ": ";
+            labelPlayer2Score.Left = labelPlayer2Name.Right + 10;
         }
 
         private void createGameLogic()
@@ -52,21 +72,14 @@ namespace CheckersUI
         private void createBoard()
         {
             int boardSize = r_GameSettings.BoardSize;
-            int numberOfStartingRows = boardSize - 2;
-            int numberOfRowsPerPlayer = numberOfStartingRows / 2;
+            int numberOfRowsPerPlayer = (boardSize - 2) / 2;
             string piece = "O";
 
             for (int i = 0; i < boardSize; i++)
             {
                 for (int j = 0; j < boardSize; j++)
                 {
-                    Button button = new Button();
-                    int currentHeight = 30 + 80 * i;
-                    int currentWidth = 10 + 80 * j + 5;
-                    button.Location = new Point(currentWidth, currentHeight);
-                    button.Name = string.Format("{0}, {1}", i + 1, j + 1);
-                    button.Size = new Size(80, 80);
-                    button.Enabled = false;
+                    GameButton button = new GameButton(i, j);
                     if ((i % 2 == 0 && j % 2 != 0) || (i % 2 != 0 && j % 2 == 0))
                     {
                         button.BackColor = Color.White;
@@ -95,16 +108,43 @@ namespace CheckersUI
 
             }
         }
-
+        
         private void GameButton_OnClick(object i_Sender, EventArgs i_e)
         {
             if(i_Sender is Button)
             {
                 Button b = i_Sender as Button;
                 b.BackColor = b.BackColor == Color.White ? Color.Blue : Color.White;
+                //makes the right buttons (only those he can move to) enabled
+                //make the move(?) and move the piece
             }
         }
-        public bool IsGameOver { get; set; }
+
+        private void FormCheckers_Resize(object i_Sender, EventArgs e)
+        {
+            int buttonAmount = r_GameSettings.BoardSize;
+            /*Resize the tiles of the game (depends on the client size) */
+            int buttonWidth = (ClientSize.Width - 5 * (buttonAmount - 1) - 10) / buttonAmount;
+            int buttonHeight = (ClientSize.Height - 5 * (buttonAmount - 1) - 10 - 30) / buttonAmount;
+
+            for (int i = 4; i < this.Controls.Count; i++)
+            {
+                if (Controls[i] is GameButton button)
+                {
+                    button.Width = buttonWidth;
+                    button.Height = buttonHeight;
+                    int currentWidth = 10 + button.Width * ((i - 4) % buttonAmount) + 5;
+                    int currentHeight = 10 + button.Height * ((i - 4) / buttonAmount) + 5;
+                    button.Location = new Point(currentWidth, currentHeight);
+                }
+            }
+
+            /*Change the location of the players name plates*/
+            labelPlayer1Name.Location = new Point(ClientSize.Width / 12, ClientSize.Height - 30);
+            labelPlayer1Score.Location = new Point(ClientSize.Width / 12 + labelPlayer1Name.Width, ClientSize.Height - 30);
+            labelPlayer2Name.Location = new Point((ClientSize.Width / 2) + ClientSize.Width / 14, ClientSize.Height - 30);
+            labelPlayer2Score.Location = new Point((ClientSize.Width / 2) + ClientSize.Width / 14 + labelPlayer2Name.Width, ClientSize.Height - 30);
+        }
 
         public void PlayRound()
         {
@@ -115,13 +155,13 @@ namespace CheckersUI
 
             if (isPlayerOne || m_PlayerTwo.IsHuman)
             {
-                playerMove = getPlayerMove();
+                //playerMove = getPlayerMove();
                 if (playerMove[0].ToString().ToLower() != "q")
                 {
                     while (!isMovePlayable(playerMove))
                     {
                         Console.WriteLine("The move is unplayable, please try again: ");
-                        playerMove = getPlayerMove();
+                        //playerMove = getPlayerMove();
                     }
                 }
                 else
@@ -162,15 +202,11 @@ namespace CheckersUI
             {
                 winningPlayer.Score += m_gameLogic.GetWinnerScore();
                 printWinningMassage(winningPlayer);
-                printScore();
-                checkForAnotherRound();
             }
 
             else if (m_gameLogic.IsTie())
             {
                 printTieMassage();
-                printScore();
-                checkForAnotherRound();
             }
 
         }
@@ -192,45 +228,27 @@ namespace CheckersUI
             }
 
             printWinningMassage(winningPlayer);
-            printScore();
-            checkForAnotherRound();
         }
 
-        private void printWinningMassage(Player i_WinningPlayer)
+        private bool printWinningMassage(Player i_WinningPlayer)
         {
+            StringBuilder winMessage = new StringBuilder();
+            winMessage.Append($"{i_WinningPlayer.PlayerName} has won!");
+            winMessage.Append(Environment.NewLine);
+            winMessage.Append("Play another round?");
+            DialogResult result = MessageBox.Show(winMessage.ToString(), "Win", MessageBoxButtons.YesNo);
+            return result == DialogResult.Yes;
         }
 
-        private void printTieMassage()
+        private bool printTieMassage()
         {
-            Console.WriteLine("There is a tie!");
+            StringBuilder tieMessage = new StringBuilder();
+            tieMessage.Append("There was a tie!");
+            tieMessage.Append(Environment.NewLine);
+            tieMessage.Append("Play another round?");
+            DialogResult result = MessageBox.Show(tieMessage.ToString(), "Tie", MessageBoxButtons.YesNo);
+            return result == DialogResult.Yes;
         }
-
-        private void printScore()
-        {
-            Console.WriteLine("The score is: {0}:{1}  {2}:{3}", m_PlayerOne.PlayerName, m_PlayerOne.Score,
-                m_PlayerTwo.PlayerName, m_PlayerTwo.Score);
-        }
-
-        private void checkForAnotherRound()
-        {
-            bool continueGame = false;
-
-            Console.WriteLine("Play another round? Y/N");
-            if (continueGame)
-            {
-                IsGameOver = false;
-                m_gameLogic.NewGame();
-                m_gameAi.InitAI();
-                PlayRound();
-            }
-
-            else
-            {
-                IsGameOver = true;
-            }
-
-        }
-
         private bool isMovePlayable(string i_PlayerMove)
         {
             int fromCol = i_PlayerMove[0] - 'A';
@@ -240,48 +258,6 @@ namespace CheckersUI
 
             return m_gameLogic.CheckAndMove(fromRow, fromCol, toRow, toCol);
         }
-
-        private string getPlayerMove()
-        {
-            string userInput = Console.ReadLine();
-
-            while (!(isUserMoveLegal(userInput)))
-            {
-                Console.WriteLine("Invalid move, please enter COLrow>COLrow");
-                userInput = Console.ReadLine();
-            }
-
-            return userInput;
-        }
-
-        private bool isUserMoveLegal(string i_UserInput)
-        {
-            bool isValid = false;
-
-            if (i_UserInput.Length == 1 && i_UserInput[0].ToString().ToLower() == "q")
-            {
-                isValid = true;
-            }
-
-            else if (i_UserInput.Length == 5 && i_UserInput.Contains('>'))
-            {
-                for (int i = 0; i < i_UserInput.Length; i++)
-                {
-                    if (i == 0 || i == 3)
-                    {
-                        isValid = i_UserInput[i] >= 'A' && i_UserInput[i] <= (char)('A' + m_gameLogic.GetBoardSize());
-                    }
-
-                    else
-                    {
-                        isValid = i_UserInput[i] >= 'a' && i_UserInput[i] <= (char)('a' + m_gameLogic.GetBoardSize());
-                    }
-
-                }
-
-            }
-
-            return isValid;
-        }
+        
     }
 }
