@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace CheckersUI
 {
-    public partial class GameSettings : Form
+    public partial class FormGameSettings : Form
     {
-        public GameSettings()
+        public FormGameSettings()
         {
             InitializeComponent();
         }
@@ -20,7 +20,27 @@ namespace CheckersUI
         {
 
         }
-        
+
+        public string Player1Name => textBoxPlayer1.Text;
+
+        public string Player2Name => textBoxPlayer2.Text;
+
+        public bool IsComputer => checkBoxPlayer2.Checked;
+
+        public int BoardSize
+        {
+            get
+            {
+                int boardSize = 6;
+                if(radioButton6x6.Checked)
+                    boardSize = 6;
+                if(radioButton8x8.Checked)
+                    boardSize = 8;
+                if(radioButton10x10.Checked)
+                    boardSize = 10;
+                return boardSize;
+            }
+        }
         private void checkBoxPlayer2_CheckedChanged(object sender, EventArgs e)
         {
             if (textBoxPlayer2.ReadOnly == true)
@@ -49,10 +69,7 @@ namespace CheckersUI
             }
             else
             {
-                GameBoard gameBoard = new GameBoard();
-                this.Hide();
                 this.DialogResult = DialogResult.OK;
-                gameBoard.ShowDialog();
                 this.Close();
             }
         }

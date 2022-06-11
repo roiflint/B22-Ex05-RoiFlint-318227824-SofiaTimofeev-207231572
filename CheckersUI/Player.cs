@@ -8,13 +8,11 @@ namespace CheckersUI
 {
     public class Player
     {
-        private readonly ePawnTypes r_PawnType;
-        public Player(string i_PlayerName, bool i_IsHuman, ePawnTypes i_PawnType)
+        public Player(string i_PlayerName, bool i_IsHuman)
         {
             PlayerName = i_PlayerName;
             IsHuman = i_IsHuman;
             Score = 0;
-            r_PawnType = i_PawnType;
         }
 
         public string PlayerName { get; }
@@ -22,7 +20,6 @@ namespace CheckersUI
         public bool IsHuman { get; }
         
         public int Score { get; set; }
-
-        public char PawnType => (char)r_PawnType;
+        
     }
 }

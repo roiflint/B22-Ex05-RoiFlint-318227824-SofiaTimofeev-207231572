@@ -1,7 +1,7 @@
 ﻿
 namespace CheckersUI
 {
-    partial class GameSettings
+    partial class FormGameSettings
     {
         /// <summary>
         /// Required designer variable.
@@ -158,7 +158,7 @@ namespace CheckersUI
             this.Controls.Add(this.radioButton6x6);
             this.Controls.Add(this.labelBoardSize);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "GameSettings";
+            this.Name = "FormGameSettings";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Game Settings";

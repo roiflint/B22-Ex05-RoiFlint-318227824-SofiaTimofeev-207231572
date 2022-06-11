@@ -20,7 +20,7 @@ namespace CheckersUI
 
         public GameUI()
         {
-            Application.Run(new GameSettings());
+            Application.Run(new FormGameSettings());
             createFirstPlayer();
             createSecondPlayer();
             m_gameLogic = new GameLogic(getBoardSize());
@@ -28,7 +28,7 @@ namespace CheckersUI
             m_isFirstRound = true;
             //create board
         }
-
+        
         public bool IsGameOver { get; set; }
 
         private void printWelcomeMessage()
@@ -45,7 +45,7 @@ namespace CheckersUI
         {
             Console.WriteLine("Please enter player name (20 letters): ");
             string playerName = getPlayerName();
-            m_PlayerOne = new Player(playerName, true, ePawnTypes.PlayerOne);
+            //m_PlayerOne = new Player(playerName, true, ePawnTypes.PlayerOne);
         }
 
         private void createSecondPlayer()
@@ -61,7 +61,7 @@ namespace CheckersUI
                 playerName = getPlayerName();
             }
 
-            m_PlayerTwo = new Player(playerName, isHuman, ePawnTypes.PlayerTwo);
+            //m_PlayerTwo = new Player(playerName, isHuman, ePawnTypes.PlayerTwo);
         }
 
         private bool getYesOrNoInput()
@@ -233,7 +233,7 @@ namespace CheckersUI
 
         private void printWinningMassage(Player i_WinningPlayer)
         {
-            Console.WriteLine("{0} has won ({1})!", i_WinningPlayer.PlayerName, i_WinningPlayer.PawnType);
+            //Console.WriteLine("{0} has won ({1})!", i_WinningPlayer.PlayerName, i_WinningPlayer.PawnType);
         }
 
         private void printTieMassage()
@@ -280,14 +280,14 @@ namespace CheckersUI
         {
             printBoard();
             Player lastTurnPlayer = i_IsPlayerOne ? m_PlayerOne : m_PlayerTwo;
-            Console.WriteLine("{0}'s turn was ({1}): {2}", lastTurnPlayer.PlayerName, lastTurnPlayer.PawnType, i_LastMove);
+           // Console.WriteLine("{0}'s turn was ({1}): {2}", lastTurnPlayer.PlayerName, lastTurnPlayer.PawnType, i_LastMove);
             printCurrentPlayerMoveMassage();
         }
 
         private void printCurrentPlayerMoveMassage()
         {
             Player currentPlayer = m_gameLogic.IsFirstPlayerTurn() ? m_PlayerOne : m_PlayerTwo;
-            Console.WriteLine("{0}'s turn ({1}): ", currentPlayer.PlayerName, currentPlayer.PawnType);
+            //Console.WriteLine("{0}'s turn ({1}): ", currentPlayer.PlayerName, currentPlayer.PawnType);
         }
 
         private bool isMovePlayable(string i_PlayerMove)

@@ -35,14 +35,17 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="GameBoard.cs">
+    <Compile Include="FormCheckers.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GameSettings.cs">
+    <Compile Include="FormCheckers.Designer.cs">
+      <DependentUpon>FormCheckers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormGameSettings.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GameSettings.Designer.cs">
-      <DependentUpon>GameSettings.cs</DependentUpon>
+    <Compile Include="FormGameSettings.Designer.cs">
+      <DependentUpon>FormGameSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="GameUI.cs" />
     <Compile Include="Player.cs" />
@@ -62,8 +65,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="GameSettings.resx">
-      <DependentUpon>GameSettings.cs</DependentUpon>
+    <EmbeddedResource Include="FormCheckers.resx">
+      <DependentUpon>FormCheckers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormGameSettings.resx">
+      <DependentUpon>FormGameSettings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

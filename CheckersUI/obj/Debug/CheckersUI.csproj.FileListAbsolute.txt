@@ -1,5 +1,4 @@
 C:\Users\dalin\Documents\GitHub\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\obj\Debug\CheckersUI.csproj.AssemblyReference.cache
-C:\Users\dalin\Documents\GitHub\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\obj\Debug\CheckersUI.GameSettings.resources
 C:\Users\dalin\Documents\GitHub\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\obj\Debug\CheckersUI.csproj.GenerateResource.cache
 C:\Users\dalin\Documents\GitHub\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\obj\Debug\CheckersUI.csproj.CoreCompileInputs.cache
 C:\Users\dalin\Documents\GitHub\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\bin\Debug\CheckersUI.exe
@@ -9,3 +8,5 @@ C:\Users\dalin\Documents\GitHub\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231
 C:\Users\dalin\Documents\GitHub\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\obj\Debug\CheckersUI.csproj.CopyComplete
 C:\Users\dalin\Documents\GitHub\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\obj\Debug\CheckersUI.exe
 C:\Users\dalin\Documents\GitHub\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\obj\Debug\CheckersUI.pdb
+C:\Users\dalin\Documents\GitHub\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\obj\Debug\CheckersUI.FormGameSettings.resources
+C:\Users\dalin\Documents\GitHub\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\obj\Debug\CheckersUI.FormCheckers.resources

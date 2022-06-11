@@ -8,9 +8,12 @@ namespace CheckersUI
 {
     class Program
     {
+        [STAThread]
         public static void Main()
         {
-            GameUI gameUI = new GameUI();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new FormCheckers());
         }
     }
 }
