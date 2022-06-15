@@ -10,3 +10,15 @@ C:\Users\dalin\Documents\GitHub\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231
 C:\Users\dalin\Documents\GitHub\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\obj\Debug\CheckersUI.pdb
 C:\Users\dalin\Documents\GitHub\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\obj\Debug\CheckersUI.FormGameSettings.resources
 C:\Users\dalin\Documents\GitHub\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\obj\Debug\CheckersUI.FormCheckers.resources
+C:\Users\Roi\Desktop\projects\C#\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\bin\Debug\CheckersUI.exe
+C:\Users\Roi\Desktop\projects\C#\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\bin\Debug\CheckersUI.pdb
+C:\Users\Roi\Desktop\projects\C#\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\bin\Debug\GameLogic.dll
+C:\Users\Roi\Desktop\projects\C#\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\bin\Debug\GameLogic.pdb
+C:\Users\Roi\Desktop\projects\C#\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\obj\Debug\CheckersUI.csprojAssemblyReference.cache
+C:\Users\Roi\Desktop\projects\C#\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\obj\Debug\CheckersUI.FormCheckers.resources
+C:\Users\Roi\Desktop\projects\C#\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\obj\Debug\CheckersUI.FormGameSettings.resources
+C:\Users\Roi\Desktop\projects\C#\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\obj\Debug\CheckersUI.csproj.GenerateResource.cache
+C:\Users\Roi\Desktop\projects\C#\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\obj\Debug\CheckersUI.csproj.CoreCompileInputs.cache
+C:\Users\Roi\Desktop\projects\C#\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\obj\Debug\CheckersUI.csproj.CopyComplete
+C:\Users\Roi\Desktop\projects\C#\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\obj\Debug\CheckersUI.exe
+C:\Users\Roi\Desktop\projects\C#\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\CheckersUI\obj\Debug\CheckersUI.pdb

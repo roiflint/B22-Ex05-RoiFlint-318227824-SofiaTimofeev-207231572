@@ -375,7 +375,7 @@ namespace CheckersLogic
             {
                 for(int j = 0; j < boardSize && isTie; j++)
                 {
-                    if(IsAbleToMove(i , j))
+                    if(IsAbleToMove(i , j, false, out List<List<int>> o_ValidMoves))
                     {
                         isTie = false;
                     }
@@ -392,75 +392,6 @@ namespace CheckersLogic
             return isValid;
         }
 
-        public bool IsAbleToMove(int i_Row, int i_Col)
-        {
-            bool ableToMove = true;
-            ePawnTypes pieceSymbol = m_Board.GetSymbolAtLocation(i_Row, i_Col);
-
-            if (pieceSymbol == ePawnTypes.PlayerOne || pieceSymbol == ePawnTypes.PlayerOneKing)
-            {
-                if(!checkMoveLegalityPlayerOne(i_Row, i_Col, i_Row - 1, i_Col - 1, false))
-                {
-                    if (!checkMoveLegalityPlayerOne(i_Row, i_Col, i_Row - 1, i_Col + 1, false))
-                    {
-                        if (!checkMoveLegalityPlayerOne(i_Row, i_Col, i_Row + 1, i_Col - 1, false))
-                        {
-                            if (!checkMoveLegalityPlayerOne(i_Row, i_Col, i_Row + 1, i_Col + 1, false))
-                            {
-                                if (!checkMoveLegalityPlayerOne(i_Row, i_Col, i_Row - 2, i_Col - 2, false))
-                                {
-                                    if (!checkMoveLegalityPlayerOne(i_Row, i_Col, i_Row - 2, i_Col + 2, false))
-                                    {
-                                        if (!checkMoveLegalityPlayerOne(i_Row, i_Col, i_Row + 2, i_Col - 2, false))
-                                        {
-                                            if (!checkMoveLegalityPlayerOne(i_Row, i_Col, i_Row + 2, i_Col + 2, false))
-                                            {
-                                                ableToMove = false;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            else if (pieceSymbol == ePawnTypes.PlayerTwo || pieceSymbol == ePawnTypes.PlayerTwoKing)
-            {
-                if (!CheckMoveLegalityPlayerTwo(i_Row, i_Col, i_Row - 1, i_Col - 1, false))
-                {
-                    if (!CheckMoveLegalityPlayerTwo(i_Row, i_Col, i_Row - 1, i_Col + 1, false))
-                    {
-                        if (!CheckMoveLegalityPlayerTwo(i_Row, i_Col, i_Row + 1, i_Col - 1, false))
-                        {
-                            if (!CheckMoveLegalityPlayerTwo(i_Row, i_Col, i_Row + 1, i_Col + 1, false))
-                            {
-                                if (!CheckMoveLegalityPlayerTwo(i_Row, i_Col, i_Row - 2, i_Col - 2, false))
-                                {
-                                    if (!CheckMoveLegalityPlayerTwo(i_Row, i_Col, i_Row - 2, i_Col + 2, false))
-                                    {
-                                        if (!CheckMoveLegalityPlayerTwo(i_Row, i_Col, i_Row + 2, i_Col - 2, false))
-                                        {
-                                            if (!CheckMoveLegalityPlayerTwo(i_Row, i_Col, i_Row + 2, i_Col + 2, false))
-                                            {
-                                                ableToMove = false;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            else
-            {
-                ableToMove = false;
-            }
-
-            return ableToMove;
-        }
-        
         public bool IsFirstPlayerTurn()
         {
             return (m_TurnNumber % 2 == 1) ? true : false;
@@ -572,5 +503,123 @@ namespace CheckersLogic
         {
             m_IsContinuesTurn = i_isContinuesTurn;
         }
+
+
+
+
+        public bool IsAbleToMove(int i_Row, int i_Col, bool i_MustEat, out List<List<int>> o_ValidMoves)
+        {
+            o_ValidMoves = new List<List<int>>();
+            bool ableToMove = true;
+            ePawnTypes pieceSymbol = m_Board.GetSymbolAtLocation(i_Row, i_Col);
+
+            if(pieceSymbol == ePawnTypes.PlayerOne || pieceSymbol == ePawnTypes.PlayerOneKing)
+            {
+                if(checkMoveLegalityPlayerOne(i_Row, i_Col, i_Row - 1, i_Col - 1, i_MustEat))
+                {
+                    o_ValidMoves.Add(new List<int>() { i_Row - 1 , i_Col - 1 });
+                }
+
+                if(checkMoveLegalityPlayerOne(i_Row, i_Col, i_Row - 1, i_Col + 1, i_MustEat))
+                {
+                    o_ValidMoves.Add(new List<int>() { i_Row - 1, i_Col + 1 });
+                }
+
+                if(checkMoveLegalityPlayerOne(i_Row, i_Col, i_Row + 1, i_Col - 1, i_MustEat))
+                {
+                    o_ValidMoves.Add(new List<int>() { i_Row + 1, i_Col - 1 });
+                }
+
+                if(checkMoveLegalityPlayerOne(i_Row, i_Col, i_Row + 1, i_Col + 1, i_MustEat))
+                {
+                    o_ValidMoves.Add(new List<int>() { i_Row + 1, i_Col + 1 });
+                }
+
+                if(checkMoveLegalityPlayerOne(i_Row, i_Col, i_Row - 2, i_Col - 2, i_MustEat))
+                {
+                    o_ValidMoves.Add(new List<int>() { i_Row - 2, i_Col - 2 });
+                }
+
+                if(checkMoveLegalityPlayerOne(i_Row, i_Col, i_Row - 2, i_Col + 2, i_MustEat))
+                {
+                    o_ValidMoves.Add(new List<int>() { i_Row - 2, i_Col + 2 });
+                }
+
+                if(checkMoveLegalityPlayerOne(i_Row, i_Col, i_Row + 2, i_Col - 2, i_MustEat))
+                {
+                    o_ValidMoves.Add(new List<int>() { i_Row + 2, i_Col - 2 });
+                }
+
+                if(checkMoveLegalityPlayerOne(i_Row, i_Col, i_Row + 2, i_Col + 2, i_MustEat))
+                {
+                    o_ValidMoves.Add(new List<int>() { i_Row + 2, i_Col + 2 });
+                }
+
+                if(o_ValidMoves.Count == 0)
+                {
+                    ableToMove = false;
+                }
+
+            }
+            else if (pieceSymbol == ePawnTypes.PlayerTwo || pieceSymbol == ePawnTypes.PlayerTwoKing)
+            {
+                if(CheckMoveLegalityPlayerTwo(i_Row, i_Col, i_Row - 1, i_Col - 1, i_MustEat))
+                {
+                    o_ValidMoves.Add(new List<int>() { i_Row - 1, i_Col - 1 });
+                }
+
+                if(CheckMoveLegalityPlayerTwo(i_Row, i_Col, i_Row - 1, i_Col + 1, i_MustEat))
+                {
+                    o_ValidMoves.Add(new List<int>() { i_Row - 1, i_Col + 1 });
+                }
+
+                if(CheckMoveLegalityPlayerTwo(i_Row, i_Col, i_Row + 1, i_Col - 1, i_MustEat))
+                {
+                    o_ValidMoves.Add(new List<int>() { i_Row + 1, i_Col - 1 });
+                }
+
+                if(CheckMoveLegalityPlayerTwo(i_Row, i_Col, i_Row + 1, i_Col + 1, i_MustEat))
+                {
+                    o_ValidMoves.Add(new List<int>() { i_Row + 1, i_Col + 1 });
+                }
+
+                if(CheckMoveLegalityPlayerTwo(i_Row, i_Col, i_Row - 2, i_Col - 2, i_MustEat))
+                {
+                    o_ValidMoves.Add(new List<int>() { i_Row - 2, i_Col - 2 });
+                }
+
+                if(CheckMoveLegalityPlayerTwo(i_Row, i_Col, i_Row - 2, i_Col + 2, i_MustEat))
+                {
+                    o_ValidMoves.Add(new List<int>() { i_Row - 2, i_Col + 2 });
+                }
+
+                if(CheckMoveLegalityPlayerTwo(i_Row, i_Col, i_Row + 2, i_Col - 2, i_MustEat))
+                {
+                    o_ValidMoves.Add(new List<int>() { i_Row + 2, i_Col - 2 });
+                }
+
+                if(CheckMoveLegalityPlayerTwo(i_Row, i_Col, i_Row + 2, i_Col + 2, i_MustEat))
+                {
+                    o_ValidMoves.Add(new List<int>() { i_Row + 2, i_Col + 2 });
+                }
+
+                if (o_ValidMoves.Count == 0)
+                {
+                    ableToMove = false;
+                }
+            }
+            else
+            {
+                ableToMove = false;
+            }
+
+            return ableToMove;
+        }
     }
+
 }
+
+
+
+
+

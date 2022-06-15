@@ -4,3 +4,9 @@ C:\Users\dalin\Documents\GitHub\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231
 C:\Users\dalin\Documents\GitHub\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\GameLogic\obj\Debug\CheckersLogic.csproj.CoreCompileInputs.cache
 C:\Users\dalin\Documents\GitHub\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\GameLogic\obj\Debug\GameLogic.dll
 C:\Users\dalin\Documents\GitHub\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\GameLogic\obj\Debug\GameLogic.pdb
+C:\Users\Roi\Desktop\projects\C#\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\GameLogic\bin\Debug\GameLogic.dll
+C:\Users\Roi\Desktop\projects\C#\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\GameLogic\bin\Debug\GameLogic.pdb
+C:\Users\Roi\Desktop\projects\C#\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\GameLogic\obj\Debug\CheckersLogic.csprojAssemblyReference.cache
+C:\Users\Roi\Desktop\projects\C#\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\GameLogic\obj\Debug\CheckersLogic.csproj.CoreCompileInputs.cache
+C:\Users\Roi\Desktop\projects\C#\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\GameLogic\obj\Debug\GameLogic.dll
+C:\Users\Roi\Desktop\projects\C#\B22-Ex05-RoiFlint-318227824-SofiaTimofeev-207231572\GameLogic\obj\Debug\GameLogic.pdb

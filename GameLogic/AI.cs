@@ -36,7 +36,7 @@ namespace CheckersLogic
                 {
                     if(board[i, j] == ePawnTypes.PlayerTwo || board[i, j] == ePawnTypes.PlayerTwoKing)
                     {
-                        if(m_GameLogic.IsAbleToMove(i, j))
+                        if(m_GameLogic.IsAbleToMove(i, j, false, out List<List<int>> o_LegalMoves))
                         {
                             pieces[currentPieceNumber, 0] = i;
                             pieces[currentPieceNumber, 1] = j;
