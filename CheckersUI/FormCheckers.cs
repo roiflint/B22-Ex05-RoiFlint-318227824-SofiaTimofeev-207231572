@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using CheckersLogic;
 
 namespace CheckersUI
@@ -18,7 +19,6 @@ namespace CheckersUI
         private Player m_PlayerOne;
         private Player m_PlayerTwo;
         private bool m_IsGameOver = false;
-        private bool m_IsFirstPlayerTurn = true;
         private GameButton[,] m_ButtonGrid;
         private GameLogic m_GameLogic;
         private AI m_gameAi;
@@ -73,9 +73,9 @@ namespace CheckersUI
                 {
                     if(m_ButtonGrid[i,j].Text == "X" || m_ButtonGrid[i, j].Text == "K")
                     {
-                        if(m_IsFirstPlayerTurn)
+                        if(m_GameLogic.IsFirstPlayerTurn())
                         {
-                            if(m_GameLogic.IsAbleToMove(i,j,false,out List<List<int>> o_ValidMoves))
+                            if(m_GameLogic.IsAbleToMove(i,j,m_GameLogic.GetIsContinuesTurn(),out List<List<int>> o_ValidMoves))
                             {
                                 m_ButtonGrid[i, j].Enabled = true;
                                 m_ButtonGrid[i, j].BackColor = Color.LightGreen;
@@ -89,14 +89,14 @@ namespace CheckersUI
                     }
                     else if(m_ButtonGrid[i, j].Text == "O" || m_ButtonGrid[i, j].Text == "U")
                     {
-                        if (m_IsFirstPlayerTurn)
+                        if (m_GameLogic.IsFirstPlayerTurn())
                         {
                             m_ButtonGrid[i, j].Enabled = false;
                             m_ButtonGrid[i, j].BackColor = Color.White;
                         }
                         else
                         {
-                            if (m_GameLogic.IsAbleToMove(i, j, false, out List<List<int>> o_ValidMoves))
+                            if (m_GameLogic.IsAbleToMove(i, j, m_GameLogic.GetIsContinuesTurn(), out List<List<int>> o_ValidMoves))
                             {
                                 m_ButtonGrid[i, j].Enabled = true;
                                 m_ButtonGrid[i, j].BackColor = Color.LightGreen;
@@ -106,7 +106,7 @@ namespace CheckersUI
                 }
             }
         }
-        private void flipPlayerButtonActivity(bool i_IsPlayerOne)
+        private void changeButtonActivity(bool i_IsPlayerOne, bool i_ButtonEnabled)
         {
             for(int i = 0; i < r_GameSettings.BoardSize; i++)
             {
@@ -114,13 +114,13 @@ namespace CheckersUI
                 {
                     if(i_IsPlayerOne)
                     {
-                        if(m_ButtonGrid[i, j].Text == "X" || m_ButtonGrid[i, j].Text == "K")
+                        if((m_ButtonGrid[i, j].Text == "X" || m_ButtonGrid[i, j].Text == "K"))
                         {
-                            if(m_GameLogic.IsAbleToMove(i,j,false, out List<List<int>> o_ValidMoves))
+                            if(m_GameLogic.IsAbleToMove(i,j,m_GameLogic.GetIsContinuesTurn(), out List<List<int>> o_ValidMoves) && i_ButtonEnabled)
                             {
-                                m_ButtonGrid[i, j].Enabled = !m_ButtonGrid[i, j].Enabled;
+                                m_ButtonGrid[i, j].Enabled = true;
                                 m_ButtonGrid[i, j].BackColor =
-                                    m_ButtonGrid[i, j].BackColor == Color.White ? Color.LightGreen : Color.White;
+                                    m_ButtonGrid[i, j].BackColor =Color.LightGreen;
                             }
                             else
                             {
@@ -132,13 +132,13 @@ namespace CheckersUI
                     }
                     else
                     {
-                        if (m_ButtonGrid[i, j].Text == "O" || m_ButtonGrid[i, j].Text == "U")
+                        if ((m_ButtonGrid[i, j].Text == "O" || m_ButtonGrid[i, j].Text == "U"))
                         {
-                            if (m_GameLogic.IsAbleToMove(i, j, false, out List<List<int>> o_ValidMoves))
+                            if (m_GameLogic.IsAbleToMove(i, j, m_GameLogic.GetIsContinuesTurn(), out List<List<int>> o_ValidMoves) && i_ButtonEnabled)
                             {
-                                m_ButtonGrid[i, j].Enabled = !m_ButtonGrid[i, j].Enabled;
+                                m_ButtonGrid[i, j].Enabled = true;
                                 m_ButtonGrid[i, j].BackColor =
-                                    m_ButtonGrid[i, j].BackColor == Color.White ? Color.LightGreen : Color.White;
+                                    m_ButtonGrid[i, j].BackColor = Color.LightGreen;
                             }
                             else
                             {
@@ -256,7 +256,7 @@ namespace CheckersUI
                     m_MoveFrom[1] = -1;
                     m_MoveTo[0] = -1;
                     m_MoveTo[1] = -1;
-                    flipPlayerButtonActivity(m_IsFirstPlayerTurn);
+                    changeButtonActivity(m_GameLogic.IsFirstPlayerTurn(), true);
                     flipAvailableMoves(m_ValidMoves);
                     b.Enabled = true;
                     b.BackColor = Color.LightGreen;
@@ -268,10 +268,10 @@ namespace CheckersUI
                 {
                     m_MoveFrom[0] = buttonLocation[0];
                     m_MoveFrom[1] = buttonLocation[1];
-                    if (m_GameLogic.IsAbleToMove(m_MoveFrom[0], m_MoveFrom[1], false, out m_ValidMoves))
+                    if (m_GameLogic.IsAbleToMove(m_MoveFrom[0], m_MoveFrom[1], m_GameLogic.GetIsContinuesTurn(), out m_ValidMoves))
                     {
                         flipAvailableMoves(m_ValidMoves);
-                        flipPlayerButtonActivity(m_IsFirstPlayerTurn);
+                        changeButtonActivity(m_GameLogic.IsFirstPlayerTurn(), false);
                         m_ButtonGrid[m_MoveFrom[0], m_MoveFrom[1]].Enabled = true;
                         m_ButtonGrid[m_MoveFrom[0], m_MoveFrom[1]].BackColor = Color.Blue;
                     }
@@ -283,7 +283,8 @@ namespace CheckersUI
                     if(m_GameLogic.CheckAndMove(m_MoveFrom[0], m_MoveFrom[1], m_MoveTo[0], m_MoveTo[1]))
                     {
                         refreshBoard();
-                        if(m_GameLogic.GetIsContinuesTurn())
+                        printBoard();
+                        if (m_GameLogic.GetIsContinuesTurn())
                         {
                             flipAvailableMoves(m_ValidMoves);
                             m_ButtonGrid[m_MoveFrom[0], m_MoveFrom[1]].Enabled = false;
@@ -295,12 +296,11 @@ namespace CheckersUI
 
                             m_ButtonGrid[m_MoveFrom[0], m_MoveFrom[1]].Enabled = true;
                             m_ButtonGrid[m_MoveFrom[0], m_MoveFrom[1]].BackColor = Color.Blue;
-                            m_GameLogic.IsAbleToMove(m_MoveFrom[0], m_MoveFrom[1], true, out m_ValidMoves);
+                            m_GameLogic.IsAbleToMove(m_MoveFrom[0], m_MoveFrom[1], m_GameLogic.GetIsContinuesTurn(), out m_ValidMoves);
                             flipAvailableMoves(m_ValidMoves);
                         }
                         else
                         {
-                            m_IsFirstPlayerTurn = !m_IsFirstPlayerTurn;
                             flipAvailableMoves(m_ValidMoves);
                             switchPlayerActiveButtons();
                             m_ButtonGrid[m_MoveFrom[0], m_MoveFrom[1]].BackColor = Color.White;
@@ -315,11 +315,46 @@ namespace CheckersUI
 
                     }
                 }
+            }
+            fixGreyBackGround();
+            checkEndGame();
+        }
 
-                //check game end
+        private void checkEndGame()
+        {
+            string message = "";
+            string title = "";
+            if(m_GameLogic.IsTie())
+            {
+                message = "Tie! Play Another Game?";
+                title = "Tie";
+            }
+            else if(m_GameLogic.CheckPlayerOneWin())
+            {
+                message = "Player One Win! Play Another Game?";
+                title = "Player One Win";
+            }
+            else if(m_GameLogic.CheckPlayerTwoWin())
+            {
+                message = "Player Two Win! Play Another Game?";
+                title = "Player Two Win";
+            }
+            else
+            {
+                return;
+            }
+            var selectedOption = MessageBox.Show(message, title, MessageBoxButtons.YesNoCancel);
+
+            if(selectedOption == DialogResult.Yes)
+            {
+                //reset board
+            }
+            else
+            {
+                //exit
             }
 
-            fixGreyBackGround();
+
         }
 
         private void refreshBoard()
@@ -489,6 +524,50 @@ namespace CheckersUI
 
             return m_GameLogic.CheckAndMove(fromRow, fromCol, toRow, toCol);
         }
-        
+
+        private void printBoard()
+        {
+            int boardSize = m_GameLogic.GetBoardSize();
+            char startingLetter = 'a';
+            StringBuilder boardLine = new StringBuilder();
+            ePawnTypes[,] gameBoard = m_GameLogic.GetBoard();
+
+            printLetterOverhead(boardSize);
+            for (int i = 0; i < boardSize; i++)
+            {
+                printSeparatorLine(boardSize);
+                boardLine.Append((char)(startingLetter + i));
+                boardLine.Append("| ");
+                for (int j = 0; j < boardSize; j++)
+                {
+                    boardLine.Append((char)gameBoard[i, j]);
+                    boardLine.Append(" | ");
+                }
+
+                Console.WriteLine(boardLine);
+                boardLine.Clear();
+            }
+
+        }
+        private void printLetterOverhead(int i_BoardSize)
+        {
+            const char k_StartingLetter = 'A';
+            StringBuilder letterOverhead = new StringBuilder();
+
+            letterOverhead.Append(' ', 3);
+            for (int i = 0; i < i_BoardSize; i++)
+            {
+                letterOverhead.Append((char)(k_StartingLetter + i));
+                letterOverhead.Append(' ', 3);
+            }
+
+            Console.WriteLine(letterOverhead);
+        }
+
+        private void printSeparatorLine(int i_BoardSize)
+        {
+            string separatorLine = new string('=', 4 * i_BoardSize + 2);
+            Console.WriteLine(separatorLine);
+        }
     }
 }
