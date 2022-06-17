@@ -82,10 +82,11 @@ namespace CheckersUI
             this.Controls.Add(this.labelPlayer2Name);
             this.Controls.Add(this.labelPlayer1Score);
             this.Controls.Add(this.labelPlayer1Name);
+            this.MaximizeBox = false;
             this.Name = "FormCheckers";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Damka";
-            this.Resize += new System.EventHandler(this.FormCheckers_Resize);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormCheckers_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
