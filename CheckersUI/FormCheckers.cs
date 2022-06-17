@@ -64,6 +64,7 @@ namespace CheckersUI
             ClientSize = new Size(
                 k_WeightPadding + GameButton.GameButtonSize * r_GameSettings.BoardSize,
                 k_HeightPadding + GameButton.GameButtonSize * r_GameSettings.BoardSize);
+            m_gameAi = new AI(ref m_GameLogic);
         }
 
         private void switchPlayerActiveButtons()
@@ -114,6 +115,39 @@ namespace CheckersUI
                     }
                 }
             }
+        }
+
+        private void changeTurnAi()
+        {
+            for(int i = 0; i < r_GameSettings.BoardSize; i++)
+            {
+                for(int j = 0; j < r_GameSettings.BoardSize; j++)
+                {
+                    if(m_ButtonGrid[i, j].Text == "X" || m_ButtonGrid[i, j].Text == "K")
+                    {
+                        if(m_GameLogic.IsAbleToMove(
+                               i,
+                               j,
+                               m_GameLogic.GetIsContinuesTurn(),
+                               out List<List<int>> o_ValidMoves))
+                        {
+                            m_ButtonGrid[i, j].Enabled = true;
+                            m_ButtonGrid[i, j].BackColor = Color.LightGreen;
+                        }
+                        else
+                        {
+                            m_ButtonGrid[i, j].Enabled = false;
+                            m_ButtonGrid[i, j].BackColor = Color.White;
+                        }
+                    }
+                    else
+                    {
+                        m_ButtonGrid[i, j].Enabled = false;
+                        m_ButtonGrid[i, j].BackColor = Color.White;
+                    }
+                }
+            }
+            fixGreyBackGround();
         }
 
         private void changeButtonActivity(bool i_IsPlayerOne, bool i_ButtonEnabled)
@@ -337,11 +371,35 @@ namespace CheckersUI
                             m_MoveFrom[1] = -1;
                             m_MoveTo[0] = -1;
                             m_MoveTo[1] = -1;
+                            refreshBoard();
+                            fixGreyBackGround();
+                            checkEndGame();
                         }
 
                     }
                 }
             }
+
+            if (!m_PlayerTwo.IsHuman)
+            {
+                bool aiMadeMove = false;
+                while (!m_GameLogic.IsFirstPlayerTurn())
+                {
+                    aiMadeMove = true;
+                    //System.Threading.Thread.Sleep(3000);
+                    m_gameAi.MakeMove(out int[,] o_Move);
+                    refreshBoard();
+                    fixGreyBackGround();
+                    checkEndGame();
+                }
+
+                if(aiMadeMove)
+                {
+                    changeTurnAi();
+
+                }
+            }
+
             fixGreyBackGround();
             checkEndGame();
         }
